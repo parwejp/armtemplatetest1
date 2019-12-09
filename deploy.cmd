@@ -68,12 +68,12 @@ echo Handling ASP.NET Core Web Application deployment.
 
 :: 1. Restore nuget packages
 echo Restoring NuGet packages
-call :ExecuteCmd dotnet restore "%DEPLOYMENT_SOURCE%\Source\Microsoft.Teams.Apps.CompanyCommunicator.sln"
+call :ExecuteCmd dotnet restore "%DEPLOYMENT_SOURCE%\Source\armtemplatetest.sln"
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 2. Restore npm packages
 echo Restoring npm packages (this can take several minutes)
-pushd "%DEPLOYMENT_SOURCE%\Source\Microsoft.Teams.Apps.CompanyCommunicator\ClientApp"
+pushd "%DEPLOYMENT_SOURCE%\Source\armtemplatetest\ClientApp"
 call :ExecuteCmd npm install --no-audit
 IF !ERRORLEVEL! NEQ 0 (
     echo First attempt failed, retrying once
@@ -84,14 +84,14 @@ IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 3. Build the client app
 echo Building the client app (this can take several minutes)
-pushd "%DEPLOYMENT_SOURCE%\Source\Microsoft.Teams.Apps.CompanyCommunicator\ClientApp"
+pushd "%DEPLOYMENT_SOURCE%\Source\armtemplatetest\ClientApp"
 call :ExecuteCmd npm run build
 popd
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 4. Build and publish
 echo Building the application
-call :ExecuteCmd dotnet publish "%DEPLOYMENT_SOURCE%\Source\Microsoft.Teams.Apps.CompanyCommunicator\Microsoft.Teams.Apps.CompanyCommunicator.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release -property:KuduDeployment=1
+call :ExecuteCmd dotnet publish "%DEPLOYMENT_SOURCE%\Source\armtemplatetest\armtemplatetest.csproj" --output "%DEPLOYMENT_TEMP%" --configuration Release -property:KuduDeployment=1
 IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 5. KuduSync
