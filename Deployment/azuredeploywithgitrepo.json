@@ -266,8 +266,7 @@
         "Application_Type": "web",
         "Request_Source": "rest"
       }
-    },
-
+    }
   ],
   "outputs": {
     "appClientId": {
